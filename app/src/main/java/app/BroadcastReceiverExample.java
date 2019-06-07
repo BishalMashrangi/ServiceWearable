@@ -1,18 +1,34 @@
 package app;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.support.v4.app.NotificationManagerCompat;
 import android.widget.Toast;
 
+import com.e.servicewearable.BroadCasteActivity;
+
 public class BroadcastReceiverExample extends BroadcastReceiver {
+
+    private NotificationManagerCompat notificationManagerCompat;
+    Context context;
+
+    public BroadcastReceiverExample(Context context) {
+        this.context = context;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
         boolean noConnectivity;
 
+        notificationManagerCompat=NotificationManagerCompat.from(context);
+
+
         if(ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())){
+
             noConnectivity = intent.getBooleanExtra(
                     ConnectivityManager.EXTRA_NO_CONNECTIVITY,
                     false);

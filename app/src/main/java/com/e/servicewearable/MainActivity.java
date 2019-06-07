@@ -1,11 +1,16 @@
 package com.e.servicewearable;
 
+import android.app.Notification;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import createChannel.CreateChannel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     NotificationManagerCompat notificationManagerCompat;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         getBtnDisplayNotification2 = findViewById(R.id.btnDisplayNotifiaction2);
 
         notificationManagerCompat = NotificationManagerCompat.from(this);
+        CreateChannel channel = new CreateChannel(this);
+        channel.createChannel();
 
         btnDisplayNotification1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,27 +46,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    int id = 1;
     private void DisplayNotification1(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "channel1")
+       Notification notification = new NotificationCompat.Builder(this,CreateChannel.CHANNEL_1)
                 .setSmallIcon(R.drawable.ic_chat_bubble_black_24dp)
-                .setContentTitle("First Message")
-                .setContentText("This is First Message")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE);
+                .setContentTitle("No Commection")
+                .setContentText("No Connectivity, please connect")
+                .setCategory(NotificationCompat.CATEGORY_SYSTEM)
+               .build();
 
-        notificationManagerCompat.notify(1, builder.build());
+
+        notificationManagerCompat.notify(id, notification);
+        id++;
 
     }
 
     private void DisplayNotification2(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "channel2")
-                .setSmallIcon(R.drawable.ic_chat_bubble_black_24dp)
-                .setContentTitle("Second Message")
-                .setContentText("This is Second Message")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE);
 
-        notificationManagerCompat.notify(2, builder.build());
+        Notification notification = new NotificationCompat.Builder(this, CreateChannel.CHANNEL_2)
+                .setSmallIcon(R.drawable.ic_chat_bubble_black_24dp)
+                .setContentTitle("Connected")
+                .setContentText("You have been connected to a network")
+
+                .setCategory(NotificationCompat.CATEGORY_SYSTEM)
+                .build();
+
+        notificationManagerCompat.notify(id, notification);
+        id++;
     }
 
 }
+

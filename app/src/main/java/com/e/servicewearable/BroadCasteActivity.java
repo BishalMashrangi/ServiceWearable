@@ -9,7 +9,7 @@ import app.BroadcastReceiverExample;
 
 public class BroadCasteActivity extends AppCompatActivity {
 
-    BroadcastReceiverExample broadcastReceiverExample = new BroadcastReceiverExample();
+    BroadcastReceiverExample broadcastReceiverExample = new BroadcastReceiverExample(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
